@@ -1,4 +1,13 @@
 @php($announcement=getWebConfig(name: 'announcement'))
+<style>
+.revanly-text {
+    font-family: 'Story Script', cursive;
+    font-size: 1.5rem; /* adjust size */
+    font-weight: bold;
+    margin-left: 6px;  /* spacing between logo and text */
+    color: #8B2B94;    /* or your primary color */
+}
+</style>
 
 @if (isset($announcement) && $announcement['status']==1)
     <div class="text-center position-relative px-4 py-1" id="announcement"
@@ -87,6 +96,7 @@
                     <img class="__inline-11"
                          src="{{ getValidImage(path: 'storage/app/public/company/'.$web_config['web_logo']->value, type: 'logo') }}"
                          alt="{{$web_config['name']->value}}">
+                         <span class="revanly-text">Revanly</span>
                 </a>
                 <a class="navbar-brand d-sm-none"
                    href="{{route('home')}}">
