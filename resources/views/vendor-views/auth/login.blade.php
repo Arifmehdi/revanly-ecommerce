@@ -100,25 +100,7 @@
                                     </label>
                                 </div>
                             </div>
-                            @if(isset($recaptcha) && $recaptcha['status'] == 1)
-                                <div id="recaptcha_element" class="w-100" data-type="image"></div>
-                                <br/>
-                            @else
-                                <div class="row py-2">
-                                    <div class="col-6 pr-0">
-                                        <input type="text" class="form-control __h-40 border-0" name="vendorRecaptchaKey" value=""
-                                               placeholder="{{translate('enter_captcha_value')}}" autocomplete="off">
-                                    </div>
-                                    <div class="col-6 input-icons mb-2 w-100 rounded bg-white">
-                                        <a class="d-flex align-items-center align-items-center get-login-recaptcha-verify"
-                                           data-link="{{ URL('/vendor/auth/recaptcha') }}">
-                                            <img src="{{ URL('/vendor/auth/recaptcha/1?captcha_session_id=vendorRecaptchaSessionKey') }}"
-                                                alt="" class="rounded __h-40" id="default_recaptcha_id">
-                                            <i class="tio-refresh position-relative cursor-pointer p-2"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            @endif
+
                             <button type="button" class="btn btn-lg btn-block btn--primary submit-login-form">{{translate('login')}}</button>
                         </form>
                     </div>
@@ -172,17 +154,7 @@
 <script src="{{dynamicAsset(path: 'public/assets/back-end/js/toastr.js')}}"></script>
 <script src="{{dynamicAsset(path: 'public/assets/back-end/js/vendor/login.js')}}"></script>
 {!! Toastr::message() !!}
-@if(isset($recaptcha) && $recaptcha['status'] == 1)
-    <script type="text/javascript">
-        "use strict";
-        var onloadCallback = function () {
-            grecaptcha.render('recaptcha_element', {
-                'sitekey': '{{ getWebConfig(name: 'recaptcha')['site_key'] }}'
-            });
-        };
-    </script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
-@endif
+
 </body>
 </html>
 

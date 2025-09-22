@@ -3,16 +3,15 @@
 namespace App\Http\Requests\Web;
 
 use App\Traits\CalculatorTrait;
-use App\Traits\RecaptchaTrait;
 use App\Traits\ResponseHandler;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Session;
+
 use Illuminate\Validation\Validator;
 
 class CustomerRegistrationRequest extends FormRequest
 {
-    use RecaptchaTrait;
+    
     use CalculatorTrait, ResponseHandler;
 
     protected $stopOnFirstFailure = true;
@@ -43,27 +42,7 @@ class CustomerRegistrationRequest extends FormRequest
         ];
     }
 
-    public function after(): array
-    {
-        return [
-            function (Validator $validator) {
-                $recaptcha = getWebConfig(name: 'recaptcha');
-                if (isset($recaptcha) && $recaptcha['status'] == 1) {
-                    if (!$this['g-recaptcha-response'] || !$this->isGoogleRecaptchaValid($this['g-recaptcha-response'])) {
-                        $validator->errors()->add(
-                            'recaptcha', translate('ReCAPTCHA_Failed') . '!'
-                        );
-                    }
-                } else if ($recaptcha['status'] != 1 && strtolower($this['default_recaptcha_value_customer_regi']) != strtolower(Session('default_recaptcha_id_customer_regi'))) {
-                    $validator->errors()->add(
-                        'g-recaptcha-response', translate('ReCAPTCHA_Failed') . '!'
-                    );
-                } else if ($recaptcha['status'] != 1 && strtolower($this['default_recaptcha_value_customer_regi']) == strtolower(Session('default_recaptcha_id_customer_regi'))) {
-                    Session::forget('default_recaptcha_id_customer_regi');
-                }
-            }
-        ];
-    }
+
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
     {

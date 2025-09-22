@@ -487,8 +487,10 @@ class CustomerController extends Controller
 
         if ($user == 'offline') {
             $guest = GuestUser::find($request->guest_id);
-            $guest->fcm_token = $request['cm_firebase_token'];
-            $guest->save();
+            if ($guest) {
+                $guest->fcm_token = $request['cm_firebase_token'];
+                $guest->save();
+            }
         } else {
             DB::table('users')->where('id', $user->id)->update([
                 'cm_firebase_token' => $request['cm_firebase_token'],

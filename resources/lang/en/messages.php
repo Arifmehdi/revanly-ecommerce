@@ -7852,4 +7852,6 @@
   'please_contact_us_for_any_queries' => 'Please contact us for any queries',
   '_we’re_always_happy_to_help' => ' we’re always happy to help',
   'Thanks_&_Regards' => 'Thanks & Regards',
+  'Phone number already has been taken' => 'Phone number already has been taken',
+  'The password and confirm password must match.' => 'The password and confirm password must match.',
 );

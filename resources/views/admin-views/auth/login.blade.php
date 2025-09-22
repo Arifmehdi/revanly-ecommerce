@@ -90,25 +90,7 @@
                                     </label>
                                 </div>
                             </div>
-                            @if(isset($recaptcha) && $recaptcha['status'] == 1)
-                                <div id="recaptcha_element" class="w-100;" data-type="image"></div>
-                                <br/>
-                            @else
-                                <div class="row p-2">
-                                    <div class="col-6 pr-0">
-                                        <input type="text" class="form-control form-control-lg border-0"
-                                               name="default_captcha_value" value="" required
-                                               placeholder="{{translate('enter_captcha_value')}}" autocomplete="off">
-                                    </div>
-                                    <div class="col-6 input-icons bg-white rounded">
-                                        <a class="get-login-recaptcha-verify" data-link="{{ URL('login/recaptcha/') }}">
-                                            <img src="{{ URL('login/recaptcha/'.rand().'?captcha_session_id=default_recaptcha_id_'.$role.'_login') }}"
-                                                 class="input-field w-90 h-75" id="default_recaptcha_id" alt="">
-                                            <i class="tio-refresh icon"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            @endif
+
 
                             <button type="submit" class="btn btn-lg btn-block btn--primary">
                                 {{ translate('sign_in')}}
@@ -156,17 +138,7 @@
         @endforeach
     </script>
 @endif
-@if(isset($recaptcha) && $recaptcha['status'] == 1)
-    <script type="text/javascript">
-        "use strict";
-        var onloadCallback = function () {
-            grecaptcha.render('recaptcha_element', {
-                'sitekey': '{{ getWebConfig(name: 'recaptcha')['site_key'] }}'
-            });
-        };
-    </script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
-@endif
+
 
 </body>
 </html>

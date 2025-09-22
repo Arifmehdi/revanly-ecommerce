@@ -25,27 +25,7 @@ class LoginController extends Controller
         $this->middleware('guest:customer', ['except' => ['logout']]);
     }
 
-    public function captcha(Request $request, $tmp)
-    {
 
-        $phrase = new PhraseBuilder;
-        $code = $phrase->build(4);
-        $builder = new CaptchaBuilder($code, $phrase);
-        $builder->setBackgroundColor(220, 210, 230);
-        $builder->setMaxAngle(25);
-        $builder->setMaxBehindLines(0);
-        $builder->setMaxFrontLines(0);
-        $builder->build($width = 100, $height = 40, $font = null);
-        $phrase = $builder->getPhrase();
-
-        if(Session::has($request->captcha_session_id)) {
-            Session::forget($request->captcha_session_id);
-        }
-        Session::put($request->captcha_session_id, $phrase);
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Content-Type:image/jpeg");
-        $builder->output();
-    }
 
     public function login()
     {
@@ -65,41 +45,7 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        //recaptcha validation start
-        $recaptcha = Helpers::get_business_settings('recaptcha');
-        if (isset($recaptcha) && $recaptcha['status'] == 1) {
-            try {
-                $request->validate([
-                    'g-recaptcha-response' => [
-                        function ($attribute, $value, $fail) {
-                            $secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
-                            $response = $value;
-                            $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
-                            $response = \file_get_contents($url);
-                            $response = json_decode($response);
-                            if (!$response->success) {
-                                $fail(translate('ReCAPTCHA Failed'));
-                            }
-                        },
-                    ],
-                ]);
-            } catch (\Exception $exception) {}
-        } else {
-            if (strtolower($request['default_recaptcha_id_customer_login']) != strtolower(Session('default_recaptcha_id_customer_login'))) {
-                if($request->ajax()) {
-                    return response()->json([
-                        'status'=>'error',
-                        'message'=>translate('Captcha_Failed.'),
-                        'redirect_url'=>''
-                    ]);
-                }else {
-                    Session::forget('default_recaptcha_id_customer_login');
-                    Toastr::error(translate('captcha_failed'));
-                    return back();
-                }
-            }
-        }
-        //recaptcha validation end
+
 
         $user = User::where(['phone' => $request->user_id])->orWhere(['email' => $request->user_id])->first();
         $remember = ($request['remember']) ? true : false;

@@ -109,23 +109,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                @php($recaptcha = getWebConfig(name: 'recaptcha'))
-                                @if(isset($recaptcha) && $recaptcha['status'] == 1)
-                                    <div id="recaptcha_element" class="w-100" data-type="image"></div>
-                                @else
-                                <div class="row">
-                                    <div class="col-6 pr-2">
-                                        <input type="text" class="form-control border __h-40" name="default_recaptcha_value_customer_regi" value=""
-                                                placeholder="{{ translate('enter_captcha_value') }}" autocomplete="off">
-                                    </div>
-                                    <div class="col-6 input-icons mb-2 w-100 rounded bg-white">
-                                        <a href="javascript:" class="d-flex align-items-center align-items-center get-regi-recaptcha-verify" data-link="{{ URL('/customer/auth/code/captcha') }}">
-                                            <img alt="" src="{{ URL('/customer/auth/code/captcha/1?captcha_session_id=default_recaptcha_id_customer_regi') }}" class="input-field rounded __h-40" id="default_recaptcha_id">
-                                            <i class="tio-refresh icon cursor-pointer p-2"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -152,17 +136,7 @@
 @endsection
 
 @push('script')
-    @if(isset($recaptcha) && $recaptcha['status'] == 1)
-        <script type="text/javascript">
-            "use strict";
-            var onloadCallback = function () {
-                grecaptcha.render('recaptcha_element', {
-                    'sitekey': '{{ getWebConfig(name: 'recaptcha')['site_key'] }}'
-                });
-            };
-        </script>
-        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
-    @endif
+
 
     <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
