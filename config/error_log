@@ -1,0 +1,4 @@
+[14-Sep-2024 09:27:18 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/elitedesign/ecommerce8.elitedesign.com.bd/config/cache.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/elitedesign/ecommerce8.elitedesign.com.bd/config/cache.php on line 21
